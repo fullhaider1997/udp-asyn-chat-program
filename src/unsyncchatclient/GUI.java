@@ -18,10 +18,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 public class GUI extends javax.swing.JFrame {
 
-    private String address;
-    private int portnumber;
+    public static String address;
+    public static int portnumber ;
     private String sendMessage;
-    private String recievedMessage;
+    private  static String recievedMessage;
+    private boolean buttonPressed;
     
     public String getAddress(){
         return address;
@@ -29,7 +30,7 @@ public class GUI extends javax.swing.JFrame {
      public String getsendMessage(){
         return sendMessage;
     }
-      public String getrecievedMessage(){
+      public static String getrecievedMessage(){
         return recievedMessage;
     }
       
@@ -37,19 +38,28 @@ public class GUI extends javax.swing.JFrame {
         this.sendMessage = message;
     }
       public void setrecievedMessage(String message){
-         this.sendMessage = message;
+         this.recievedMessage = message;
     }
     
     public int getportnumber(){
         return portnumber;
     }
+     public boolean getButtonIsEnable(){
+        return buttonPressed;
+    }
     
      public void setAddress(String address){
         this.address = address;
     }
+     
+    
     
     public void setPortnumber(int portnumber){
        this.portnumber = portnumber;
+    }
+    
+    public void buttonIsEnable(boolean state){
+        this.buttonPressed = state;
     }
     
    
@@ -75,12 +85,9 @@ public class GUI extends javax.swing.JFrame {
         recievedText = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
         sendText = new javax.swing.JTextPane();
-        jToggleButton1 = new javax.swing.JToggleButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTextPane3 = new javax.swing.JTextPane();
-        jLabel5 = new javax.swing.JLabel();
+        togglebutton = new javax.swing.JButton();
 
         jScrollPane4.setViewportView(jTextPane2);
 
@@ -104,20 +111,16 @@ public class GUI extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(sendText);
 
-        jToggleButton1.setText("send");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
-            }
-        });
-
         jLabel3.setText("Recieved text");
 
         jLabel4.setText("Enter your text");
 
-        jScrollPane5.setViewportView(jTextPane3);
-
-        jLabel5.setText("Status");
+        togglebutton.setText("send");
+        togglebutton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                togglebuttonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -128,10 +131,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
@@ -142,16 +142,16 @@ public class GUI extends javax.swing.JFrame {
                         .addGap(55, 55, 55)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addressMachine, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(addressMachine, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(portNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 220, Short.MAX_VALUE)
-                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(127, 127, 127))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(204, 204, 204)
+                .addComponent(togglebutton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,12 +163,8 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(portNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addressMachine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel5)))
+                .addGap(19, 19, 19)
+                .addComponent(jLabel3)
                 .addGap(6, 6, 6)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14)
@@ -176,7 +172,7 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addComponent(jToggleButton1))
+                .addComponent(togglebutton))
         );
 
         pack();
@@ -186,24 +182,46 @@ public class GUI extends javax.swing.JFrame {
          
         if(ActivateServer.isEnabled())
         {
+              
+               
                setAddress(addressMachine.getText());
                setPortnumber(Integer.parseInt(portNumber.getText()));
-               System.out.println("jframe:"+addressMachine.getText());
-               System.out.println("jframe:"+portNumber.getText());    
-        }
+               System.out.println("jframe: "+getAddress());
+               System.out.println("jframe: "+getportnumber());
+               setup st= new setup(Integer.parseInt(portNumber.getText()),addressMachine.getText());
+               UnSyncChatClient client = new UnSyncChatClient();
+               client.haider(st);
+              
+              
+       
+       }
 
     }//GEN-LAST:event_ActivateServerActionPerformed
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-
-       if(sendText.isEnabled()){
-           setMessage(sendText.getText());
-            System.out.println("jframe: "+ sendText.getText()+ "\n");
-           
-           
-           
-       }
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    private void togglebuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togglebuttonActionPerformed
+        // TODO add your handling code here:
+           Boolean state = false;
+            if(togglebutton.isEnabled()){
+            UnSyncChatClient client = new UnSyncChatClient();
+            try {
+                System.out.println("kkkkkkkkkkkkkkkkkkkk jframe: "+ sendText.getText());
+                client.Message( sendText.getText());
+                client.buttonIs(true);
+                state=true;
+                
+              
+            } catch (InterruptedException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }
+            if(state){
+                
+                System.out.println("from jframe recieved message:" +getrecievedMessage());
+                recievedText.setText(getrecievedMessage() + "\n");
+                
+                state=false;
+            }
+    }//GEN-LAST:event_togglebuttonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -247,16 +265,13 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTextPane jTextPane2;
-    private javax.swing.JTextPane jTextPane3;
-    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JTextField portNumber;
     private javax.swing.JTextArea recievedText;
     private javax.swing.JTextPane sendText;
+    private javax.swing.JButton togglebutton;
     // End of variables declaration//GEN-END:variables
 }

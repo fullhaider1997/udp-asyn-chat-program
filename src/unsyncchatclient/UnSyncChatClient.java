@@ -15,43 +15,66 @@ public class UnSyncChatClient {
 
        static DatagramSocket ss;
        static InetAddress ip;
-    public static void main(String[] args) throws IOException, InterruptedException 
-    {
-  
+       static Thread ssend;
+       static Thread sreceive;
+       private static String ip1;
+       private static  int portnumber;
+       private static String message;
+       public static boolean isPressed;
+       
+       public static void Message(String str){
+           UnSyncChatClient.message = str;
+           System.out.println("wwwwwwwClient input:" +UnSyncChatClient.message );
+       }
+    
+       
+       public static void haider(setup st){
+        UnSyncChatClient.portnumber= st.portFromSetup();
+           try {
+               UnSyncChatClient.ip = InetAddress.getByName(UnSyncChatClient.ip1);
+           } catch (UnknownHostException ex) {
+               Logger.getLogger(UnSyncChatClient.class.getName()).log(Level.SEVERE, null, ex);
+           }
+               System.out.println("getinformation on port " + UnSyncChatClient.portnumber);
+               System.out.println("getinformation on address "+ UnSyncChatClient.ip1);
+         
+               System.out.println("Sucesssfull: ip address :"+ UnSyncChatClient.ip);
+          
+       
+           try {
+               ss = new DatagramSocket(UnSyncChatClient.portnumber);
+               System.out.println("successful: port num is "+ ss.getPort());
+          
+           } catch (SocketException ex) {
+               System.out.println("Error: port num is "+ ss.getPort());
+               Logger.getLogger(UnSyncChatClient.class.getName()).log(Level.SEVERE, null, ex);
+           }
+               
+           
         
-        GUI gui = new GUI();
-        gui.setVisible(true);
-        int i=0;
-        
-       System.out.println("Running UnSyncChatClient.java");
-       System.out.println("Client is Up....");
-       System.out.println("from client:" +gui.getAddress());
-       System.out.println("from client: "+gui.getportnumber());
-       ss = new DatagramSocket(gui.getportnumber());
-       ip = InetAddress.getByName(gui.getAddress());
       
-            
-                   
-                
-        
-        
-                       
-
-        // with a nested runnable class definition 
-        Thread ssend = new Thread(new Runnable() { 
+     }
+        public static void buttonIs(boolean state) throws InterruptedException{
+         
+         UnSyncChatClient.isPressed = true;
+            System.out.print("bool stat is "+ UnSyncChatClient.isPressed);
+          
+         // with a nested runnable class definition 
+         ssend = new Thread(new Runnable() { 
             @Override
             public void run() 
             { 
                 try { 
-                    System.out.print("client:");
-                    Scanner sc = new Scanner(System.in); 
-                    while (true) { 
+                    System.out.println("client:");
+                   
+                    System.out.println("getting ready to send:" + UnSyncChatClient.message);
+                    
                         synchronized (this) 
                         { 
                             byte[] sd = new byte[1000]; 
   
                             // scan new message to send 
-                            sd = sc.nextLine().getBytes(); 
+                            sd =  UnSyncChatClient.message.getBytes(); 
                             DatagramPacket sp = new DatagramPacket(sd, sd.length, ip, 1234); 
   
                             // send the new packet 
@@ -65,11 +88,11 @@ public class UnSyncChatClient {
                             if ((msg).equals("bye")) { 
                                 System.out.println("client"
                                                    + " exiting... "); 
-                                break; 
+                                 
                             } 
                             System.out.println("Waiting for"
                                                + " server response... "); 
-                        } 
+                         
                     } 
                 } 
                 catch (Exception e) { 
@@ -77,14 +100,13 @@ public class UnSyncChatClient {
                 } 
             } 
         }); 
-  
         Thread sreceive; 
         sreceive = new Thread(new Runnable() { 
             @Override
             public void run() 
             { 
                 try { 
-                    while (true) { 
+                    
                         synchronized (this) 
                         { 
   
@@ -95,7 +117,7 @@ public class UnSyncChatClient {
                                 = new DatagramPacket( 
                                     rd, 
                                     rd.length); 
-                            ss.receive(sp1); 
+                         ss.receive(sp1); 
   
                             // Convert byte data to string 
                             String msg 
@@ -105,14 +127,17 @@ public class UnSyncChatClient {
                                                + "):"
                                                + " "
                                                + msg); 
-  
+                            
+                            GUI gui = new GUI();
+                            gui.setrecievedMessage(msg);
                             // Exit condition 
                             if (msg.equals("bye")) { 
                                 System.out.println("client"
                                                    + " connection closed."); 
-                                break; 
-                            } 
-                        } 
+                                
+                            }
+                            
+                        
                     } 
                 } 
                 catch (Exception e) { 
@@ -120,16 +145,49 @@ public class UnSyncChatClient {
                 } 
             } 
         }); 
+          ssend.start(); 
+          sreceive.start();
+          ssend.join(); 
+          sreceive.join();
+        
+     }
+   
+      
+       
+    public static void main(String[] args) throws IOException, InterruptedException 
+    {
+        
+        GUI gui = new GUI();
+     
+        gui.setVisible(true);
+       
+       
+        System.out.println("Running UnSyncChatClient.java");
+        System.out.println("Client is Up....");
+      
+      
+      
+      
+       
+    
+       
+            
+                   
+             
+        
+       
+  
+       
   
     
-        ssend.start(); 
-        sreceive.start(); 
+       
          
      
-        ssend.join(); 
-        sreceive.join(); 
+      
     } 
+    
 }
+
         
         
     
